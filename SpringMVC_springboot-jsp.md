@@ -20,3 +20,7 @@ springboot 1.4.2 이하에서는 위의 방법대로 해결하면 됨..
 springboot + jsp의 조합은 일단 spring에서도 추천하지 않는다...만약 다시 개발하게 된다면 Thymeleaf,velocity를 사용하는게 나을듯...
 물론 Template engines의 성능도 고려해야한다.
 ```
+
+참고사이트
+https://github.com/HomoEfficio/dev-tips/blob/master/SpringMVC-JSP%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EB%A5%BC%20SpringBoot%EB%A1%9C%20%EC%98%AE%EA%B8%B0%EA%B8%B0.md
+http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-web-applications.html#boot-features-jsp-limitations
