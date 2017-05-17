@@ -1,5 +1,22 @@
 #maven plugin 설정 종류
 
+
+## war 압축 설정
+
+```
+<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-war-plugin</artifactId>
+	<configuration>
+		<packagingIncludes>resource/**,surefire-reports/**/*,META-INF/**,WEB-INF/classes/**,WEB-INF/lib/**,WEB-INF/views/**,/*.*</packagingIncludes>
+    	<failOnMissingWebXml>false</failOnMissingWebXml>
+    	<webappDirectory>WebContent</webappDirectory>
+    	<warSourceDirectory>${basedir}/WebContent</warSourceDirectory>
+    	<!-- <outputDirectory>${basedir}/WebContent</outputDirectory> -->
+	</configuration>
+</plugin>
+```
+
 ## jar 압축 설정
 
 ```
@@ -82,6 +99,7 @@
 ```
 
 ## unit test 설정
+### 속성 : -Dmaven.test.failure.ignore=true -Dmaven.test.skip=true
 
 ```
 <plugin>
@@ -109,3 +127,6 @@
     </executions>
 </plugin>
 ```
+
+## owasp top 10 plugin
+https://github.com/stevespringett/dependency-check-sonar-plugin

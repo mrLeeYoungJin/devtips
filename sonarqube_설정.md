@@ -241,3 +241,6 @@ http://www.sonarsource.com/products/editions/
 
 custom 할 profile을 생성 후 rule정보에서 repository 중 profile rule에 추가할 정보들을 활성화 한다.
 (예: findbug, findbug security, PMD, checkstyle 등)
+
+## owasp top 10 plugin
+https://github.com/stevespringett/dependency-check-sonar-plugin

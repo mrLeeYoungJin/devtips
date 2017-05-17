@@ -25,3 +25,21 @@ springboot + jsp의 조합은 일단 spring에서도 추천하지 않는다...�
 https://github.com/HomoEfficio/dev-tips/blob/master/SpringMVC-JSP%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EB%A5%BC%20SpringBoot%EB%A1%9C%20%EC%98%AE%EA%B8%B0%EA%B8%B0.md
 
 http://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-web-applications.html#boot-features-jsp-limitations
+
+# 1.4.2 이상 tomcat 실행 시 1.4.2 이하에서 자동 생성된 SpringBootServletInitializer 문제 - springboot init을 하지 못함
+
+SpringBoot 1.4 SpringBootServletInitializer Deprecated
+http://parkshw.tistory.com/11
+
+```
+@SpringBootApplication
+public class PublicSafetyApplication extends SpringBootServletInitializer {
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+		return application.sources(PublicSafetyApplication.class);
+	}
+	public static void main(String[] args) {
+		SpringApplication.run(PublicSafetyApplication.class, args);
+	}
+}
+```
