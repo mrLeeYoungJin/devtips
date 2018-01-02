@@ -1,0 +1,13 @@
+FROM ubuntu:trusty
+MAINTAINER lyjguy <lyjguy@gridwiz.com>
+
+EXPOSE 9096
+
+RUN mkdir /build
+
+COPY /build/influxdb-relay /build/influxdb-relay
+#COPY /build/relay.toml /build/relay.toml
+
+WORKDIR /build
+
+CMD ["./influxdb-relay", "-config", "relay.toml"]

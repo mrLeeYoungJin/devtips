@@ -1,0 +1,8 @@
+influxdb-relay:
+  restart: unless-stopped
+  image: gwee/influx-relay:1.0
+  ports:
+   - "9096:9096"
+  volumes:
+   - /home/lyjguy/influxdb-relay/build/relay.toml:/build/relay.toml:ro
+  container_name: gwee-influx-relay
