@@ -36,11 +36,18 @@ or
 docker rmi tagId
 ```
 
-tar save and import
--------------------
+tar save and load
+-----------------
 
 ```
 docker save -o gwee_influxdb.tar gwee/influxdb:latest
 
 docker load < gwee_influxdb.tar
+```
+
+file copy
+---------
+
+```
+docker cp container:path dest_path
 ```
