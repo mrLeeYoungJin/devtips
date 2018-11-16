@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Server port="8005" shutdown="SHUTDOWN">
+  <Listener className="org.apache.catalina.startup.VersionLoggerListener" />
+  <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
+  <Listener className="org.apache.catalina.core.JreMemoryLeakPreventionListener" />
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+  <Listener className="org.apache.catalina.core.ThreadLocalLeakPreventionListener" />
+
+  <GlobalNamingResources>
+    <Resource name="UserDatabase" auth="Container"
+              type="org.apache.catalina.UserDatabase"
+              description="User database that can be updated and saved"
+              factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
+              pathname="conf/tomcat-users.xml" />
+  </GlobalNamingResources>
+
+  <Service name="Catalina">
+    <Connector SSLEnabled="true" URIEncoding="UTF-8"
+                        ciphers="TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,        TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,
+                                        TLS_DHE_RSA_WITH_AES_256_GCM_SHA384,       TLS_DHE_RSA_WITH_AES_128_GCM_SHA256,
+                                        TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,        TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA,
+                                        TLS_DHE_RSA_WITH_AES_256_CBC_SHA256,         TLS_DHE_RSA_WITH_AES_256_CBC_SHA,
+                                        TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256,        TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA,
+                                        TLS_DHE_RSA_WITH_AES_128_CBC_SHA256,         TLS_DHE_RSA_WITH_AES_128_CBC_SHA,
+                                        TLS_ECDHE_RSA_WITH_3DES_EDE_CBC_SHA,         TLS_DHE_RSA_WITH_3DES_EDE_CBC_SHA,
+                                        TLS_RSA_WITH_AES_256_GCM_SHA384,         TLS_RSA_WITH_AES_256_CBC_SHA256,
+                                        TLS_RSA_WITH_AES_256_CBC_SHA,         TLS_RSA_WITH_AES_128_GCM_SHA256,
+                                        TLS_RSA_WITH_AES_128_CBC_SHA256,        TLS_RSA_WITH_AES_128_CBC_SHA,
+                                        TLS_RSA_WITH_3DES_EDE_CBC_SHA"
+                        clientAuth="false" keyAlias="serverkey" keystoreFile="/data/ems/tls/store/emskeystore.jks" keystorePass="vksryWkd" keystoreType="JKS" maxThreads="150"
+                        port="443" protocol="HTTP/1.1" scheme="https" secure="true" sslEnabledProtocols="TLSv1,TLSv1.1,TLSv1.2" sslProtocol="TLS" useBodyEncodingForURI="true"/>
+
+  <Connector port="8080" protocol="HTTP/1.1"
+               connectionTimeout="20000"
+               redirectPort="8443" />
+
+    <Connector port="8009" protocol="AJP/1.3" redirectPort="443" />
+
+    <Engine name="Catalina" defaultHost="localhost">
+
+      <Realm className="org.apache.catalina.realm.LockOutRealm">
+        <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
+               resourceName="UserDatabase"/>
+      </Realm>
+
+      <Host name="localhost"  appBase="webapps"
+            unpackWARs="true" autoDeploy="true">
+            <Context docBase="/data/ems/ems_sk/deploy" path="" reloadable="false" />
+      </Host>
+    </Engine>
+  </Service>
+</Server>

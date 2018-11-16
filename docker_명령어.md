@@ -1,6 +1,14 @@
 docker 명령어
 =============
 
+설치 shell
+
+```
+$ curl -s https://get.docker.com/ | sudo sh
+$ service docker startup
+$ docker ps
+```
+
 build
 -----
 
@@ -80,4 +88,20 @@ docker 설정 정보 확인
 docker inspect mysql
 
 docker inspect -f "{{ .NetworkSettings.IPAddress }}" CONTAINER_ID
+```
+
+docker host정보 확인
+--------------------
+
+```
+cat `sudo docker inspect -f "{{ .HostsPath }}" tomcat1`
+```
+
+docker images 삭제
+
+```
+## 전체 이미지 삭제
+docker rmi $(docker images -q)
+## none 이지지만 삭제
+docker rmi $(docker images -f "dangling=true" -q)
 ```

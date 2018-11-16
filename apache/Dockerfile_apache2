@@ -1,0 +1,34 @@
+# docker build -f Dockerfile_apache2 --tag gwess/apache2 .
+# docker run -d --name apache \
+# -v /data/apache2/conf/httpd.conf:/usr/local/apache2/conf/httpd.conf \
+# -v /data/apache2/conf/mod_jk.conf:/usr/local/apache2/conf/mod_jk.conf \
+# -v /data/apache2/conf/workers.properties:/usr/local/apache2/conf/workers.properties \
+# -v /data/apache2/conf/extra:/usr/local/apache2/conf/extra \
+# -p 80:80 gwess/apache2
+
+FROM httpd:2.4
+MAINTAINER YoungJin Lee <lyjguy@gridwiz.com>
+
+RUN apt-get update -y && apt-get install -y vim gcc make locales locales-all
+
+ENV APACHE_HOME /usr/local/apache2
+ENV TOMCAT_CONNETORS tomcat-connectors-1.2.46-src
+ENV LC_ALL en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+
+RUN mkdir -p /static/resource
+
+# timezone(if none zonifo install tzdata)
+ENV TZ=Asia/Seoul
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+COPY ${TOMCAT_CONNETORS}.tar.gz /opt/
+RUN cd /opt && tar -xvzf ${TOMCAT_CONNETORS}.tar.gz
+RUN cd /opt/${TOMCAT_CONNETORS}/native && ./configure --with-apxs=${APACHE_HOME}/bin/apxs && make && make install
+
+COPY httpd.conf ${APACHE_HOME}/conf/
+COPY mod_jk.conf ${APACHE_HOME}/conf/
+COPY workers.properties ${APACHE_HOME}/conf/
+COPY httpd-mpm.conf ${APACHE_HOME}/conf/extra/
+COPY httpd-vhosts.conf ${APACHE_HOME}/conf/extra/
