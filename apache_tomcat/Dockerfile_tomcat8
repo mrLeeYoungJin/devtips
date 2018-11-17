@@ -1,6 +1,5 @@
 # docker build -f Dockerfile_tomcat8 --tag gwess/tomcat:8.5 .
-# docker run -d --name tomcat1 -p 8080:8080 -p 443:8443 gwess/tomcat:8.5
-# docker run -d --name tomcat1 -e JAVA_OPTS="-DjvmRoute=jvm1 -Dhostname=tomcat1" --hostname=tomcat1 gwess/tomcat:8.5
+# docker run -d --name tomcat1 -e JAVA_OPTS="-DjvmRoute=jvm1" --hostname=tomcat1 gwess/tomcat:8.5
 
 # java of openjdk
 # Using oracle-jdk
