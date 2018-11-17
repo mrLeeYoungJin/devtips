@@ -1,0 +1,34 @@
+version: '2'
+services:
+    apache:
+      container_name: apache
+      hostname: apache
+      image: gwess/apache2
+      restart: always
+      expose:
+          - "80"
+      ports:
+          - "80:80"
+      links:
+          - tomcat1:tomcat1
+          - tomcat2:tomcat2
+      #volumes:
+      #    - /www/webapps:/usr/local/apache
+    tomcat1:
+        container_name: tomcat1
+        hostname: tomcat1
+        image: gwess/tomcat:8.5
+        restart: always
+        environment:
+            - JAVA_OPTS=-DjvmRoute=jvm1
+        #volumes:
+        #    - /www/webapps:/usr/local/tomcat
+    tomcat2:
+        container_name: tomcat2
+        hostname: tomcat2
+        image: gwess/tomcat:8.5
+        restart: always
+        environment:
+            - JAVA_OPTS=-DjvmRoute=jvm2
+        #volumes:
+        #    - /www/webapps:/usr/local/tomcat

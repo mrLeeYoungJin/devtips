@@ -19,23 +19,19 @@
   </GlobalNamingResources>
 
   <Service name="Catalina">
-    <Executor name="tomcatThreadPool" namePrefix="catalina-exec-" maxThreads="200" minSpareThreads="25" maxIdleTime="60000"/>
-
     <!--
-    <Connector executor="tomcatThreadPool" port="8080" URIEncoding="UTF-8" protocol="HTTP/1.1"
-               connectionTimeout="20000"
-               acceptCount="10"
-               enableLookups="false"
-               maxConnection="8192"
-               redirectPort="443" />
+    <Executor name="tomcatThreadPool" namePrefix="catalina-exec-" maxThreads="2" minSpareThreads="2" maxIdleTime="60000"/>
     -->
 
-    <Connector executor="tomcatThreadPool" port="443" URIEncoding="UTF-8" SSLEnabled="true" scheme="https" secure="true"
+    <!--
+    <Connector port="8080" URIEncoding="UTF-8" protocol="HTTP/1.1" redirectPort="443"
+              maxThreads="2" minSpareThreads="2" maxIdleTime="60000" connectionTimeout="20000"
+              acceptCount="10" enableLookups="false" maxConnection="8192"  />
+    -->
+    <Connector port="443" URIEncoding="UTF-8" SSLEnabled="true" scheme="https" secure="true" redirectPort="443"
                protocol="org.apache.coyote.http11.Http11Nio2Protocol"
-               connectionTimeout="20000"
-               acceptCount="10"
-               enableLookups="false"
-               maxConnection="8192" >
+               maxThreads="2" minSpareThreads="2" maxIdleTime="60000" connectionTimeout="20000"
+               acceptCount="10" enableLookups="false" maxConnection="8192" >
         <SSLHostConfig clientAuth="NONE" type="RSA" protocols="TLSv1,TLSv1.1,TLSv1.2"
                       ciphers="TLS_ECDHE_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384,
                               TLS_ECDH_ECDSA_WITH_AES_256_CBC_SHA384, TLS_ECDH_RSA_WITH_AES_256_CBC_SHA384,
@@ -63,20 +59,17 @@
     </Connector>
 
     <!-- Define an AJP 1.3 Connector on port 8009 -->
+    <Connector port="8009" URIEncoding="UTF-8" protocol="AJP/1.3" redirectPort="443"
+              maxThreads="2" minSpareThreads="2" maxIdleTime="60000" connectionTimeout="20000"
+              acceptCount="10" enableLookups="false" maxConnection="8192" />
 
-    <Connector executor="tomcatThreadPool" port="8009" URIEncoding="UTF-8" protocol="AJP/1.3" redirectPort="443"
-              connectionTimeout="20000"
-              acceptCount="10"
-              enableLookups="false"
-              maxConnections="8192"/>
-
-    <Engine name="Catalina" defaultHost="${hostname}" jvmRoute="${jvmRoute}">
+    <Engine name="Catalina" defaultHost="localhost" jvmRoute="${jvmRoute}">
       <Cluster className="org.apache.catalina.ha.tcp.SimpleTcpCluster"
                  channelSendOptions="8">
 
-          <Manager className="org.apache.catalina.ha.session.DeltaManager"
-                   expireSessionsOnShutdown="false"
-                   notifyListenersOnReplication="true"/>
+         <Manager className="org.apache.catalina.ha.session.DeltaManager"
+                  expireSessionsOnShutdown="false"
+                  notifyListenersOnReplication="true"/>
 
           <Channel className="org.apache.catalina.tribes.group.GroupChannel">
             <Membership className="org.apache.catalina.tribes.membership.McastService"
@@ -99,14 +92,16 @@
           </Channel>
 
           <Valve className="org.apache.catalina.ha.tcp.ReplicationValve"
-                 filter=""/>
+                 filter=".*\.gif|.*\.js|.*\.jpeg|.*\.jpg|.*\.png|.*\.htm|.*\.html|.*\.css|.*\.txt"/>
           <Valve className="org.apache.catalina.ha.session.JvmRouteBinderValve"/>
 
+          <!--
           <Deployer className="org.apache.catalina.ha.deploy.FarmWarDeployer"
                     tempDir="/tmp/war-temp/"
                     deployDir="/tmp/war-deploy/"
                     watchDir="/tmp/war-listen/"
                     watchEnabled="false"/>
+          -->
 
           <ClusterListener className="org.apache.catalina.ha.session.ClusterSessionListener"/>
         </Cluster>
@@ -115,7 +110,7 @@
         <Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase"/>
       </Realm>
 
-      <Host name="${hostname}"  appBase="webapps" unpackWARs="true" autoDeploy="true">
+      <Host name="localhost"  appBase="webapps" unpackWARs="true" autoDeploy="true">
       </Host>
     </Engine>
   </Service>

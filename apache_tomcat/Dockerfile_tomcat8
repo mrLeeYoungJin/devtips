@@ -1,6 +1,6 @@
 # docker build -f Dockerfile_tomcat8 --tag gwess/tomcat:8.5 .
 # docker run -d --name tomcat1 -p 8080:8080 -p 443:8443 gwess/tomcat:8.5
-# dockerdocker run -d --name tomcat1 -e JAVA_OPTS="-DjvmRoute=jvm1 -Dhostname=tomcat1" --hostname=tomcat1 gwess/tomcat:8.5
+# docker run -d --name tomcat1 -e JAVA_OPTS="-DjvmRoute=jvm1 -Dhostname=tomcat1" --hostname=tomcat1 gwess/tomcat:8.5
 
 # java of openjdk
 # Using oracle-jdk
@@ -24,6 +24,6 @@ ENV TZ=Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 COPY server.xml ${TOMCAT_HOME}/conf/
-COPY web.xml ${TOMCAT_HOME}/conf/
 COPY emskeystore.jks ${TOMCAT_HOME}/secure/
-COPY sessionInfo.jsp ${TOMCAT_HOME}/webapps/ROOT/
+COPY index.jsp ${TOMCAT_HOME}/webapps/ROOT/
+COPY web.xml ${TOMCAT_HOME}/webapps/ROOT/WEB-INF/

@@ -5,6 +5,7 @@
 # -v /data/apache2/conf/workers.properties:/usr/local/apache2/conf/workers.properties \
 # -v /data/apache2/conf/extra:/usr/local/apache2/conf/extra \
 # -p 80:80 gwess/apache2
+# docker run -d --name apache --link tomcat1 --link tomcat2 -p 80:80 gwess/apache2
 
 FROM httpd:2.4
 MAINTAINER YoungJin Lee <lyjguy@gridwiz.com>

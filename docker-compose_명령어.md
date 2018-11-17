@@ -49,7 +49,7 @@ docker-compose start tomcat8
 docker-compose up --no-deps -d tomcat nginx
 ```
 
-예) docker-compose.ymml
+예) docker-compose.yml
 -----------------------
 
 ```
