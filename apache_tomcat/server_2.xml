@@ -35,10 +35,10 @@
                  pattern="%h %l %u %t &quot;%r&quot; %s %b" />
 
           <Context docBase="/data/ems/ems_sk/deploy" path="" reloadable="false" workDir="/data/work/ems/ems_sk/deploy" />
-          <Context docBase="" path="/resource" reloadable="false" >
+          <Context docBase="" path="/resources" reloadable="false" >
             <Resources>
                   <PreResources className="org.apache.catalina.webresources.DirResourceSet"
-                      webAppMount="/" base="/data/ems/resource" />
+                      webAppMount="/" base="/data/ems/resources" />
             </Resources>
           </Context>
       </Host>
