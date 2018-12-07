@@ -2,6 +2,8 @@ Ubuntu svn to gitlab
 ====================
 
 > 참고 사이트 : https://www.lesstif.com/pages/viewpage.action?pageId=23757066
+>
+> https://github.com/nirvdrum/svn2git
 
 ```
 git 사전 설치
@@ -14,13 +16,14 @@ git 사전 설치
 $ dpkg -l | grep ruby
 $ apt-get install ruby-full
 
+> centos7
+$ yum install -y git-core git-svn ruby
 ```
 
 -	svn2git 설치
 
 ```
 gem install svn2git
-
 ```
 
 -	git global 설정
@@ -48,4 +51,23 @@ $ git remote add origin http://192.168.1.161/ESS/EMS/ems_web.git
 $ git remote add origin http://192.168.1.161/ESS/EMS/ems_web.git
 $ git push --all origin
 $ git push --tags origin
+```
+
+#### git to gitlaba
+
+```
+## 가져올 git clone
+$ glt clone old-git-url
+$ cd projectname
+
+## git 주소 변경
+$ git remote set-url origin new-git-url
+$ git push origin master
+```
+
+> 모든 branch push
+
+```
+$ git checkout branchname
+$ git push origin brnachname
 ```

@@ -59,6 +59,13 @@ docker-compose 실행(docker-compose 설치 해야함)
 docker-compose -f redmine.yml up -d
 ```
 
+> date 설정
+
+```
+$ TZ=Asia/Seoul
+$ ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+```
+
 browser 접속
 ------------
 
@@ -107,6 +114,12 @@ $ docker restart redmine
 
 ## progressive-projects-list-list.git
 docker:redmine$ git clone https://github.com/milgner/redmine_ganttproject_sync.git plugins/redmine_ganttproject_sync
+docker:redmine$ rake redmine:plugins:migrate RAILS_ENV=production
+$ docker restart redmine
+
+## redmine_gitlab_hook
+## https://github.com/phlegx/redmine_gitlab_hook
+docker:redmine$ git clone https://github.com/phlegx/redmine_gitlab_hook.git plugins/redmine_gitlab_hook
 docker:redmine$ rake redmine:plugins:migrate RAILS_ENV=production
 $ docker restart redmine
 
