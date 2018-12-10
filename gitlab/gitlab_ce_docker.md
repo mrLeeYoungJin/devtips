@@ -81,6 +81,4 @@ $ vi /etc/cron.d/redmine_sync_git_repos
 #!/bin/sh
 
 cd /usr/src/redmine/source/testproject.git && git fetch -q --all -p
-
-cd /usr/src/redmine/source/ess/ems/ems_web.git && git fetch -q --all -p
 ```
