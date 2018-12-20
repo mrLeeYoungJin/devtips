@@ -1,0 +1,24 @@
+# docker build --rm -f Dockerfile_namenode --tag gwess/centos7_hadoop_namenode .
+# docker run -d \
+-p 50010:50010 -p 50020:50020 \
+-p 50070:50070 -p 50075:50075 \
+-p 50090:50090 -p 50091:50091 -p 2122:2122 \
+--name hadoop gwess/centos7_hadoop_namenode
+# docker exec -it hadoop bash -c '$HADOOP_PREFIX/bin/hdfs namenode -format && $HADOOP_PREFIX/sbin/start-dfs.sh'
+
+FROM gwess/centos7_hadoop
+MAINTAINER YoungJin Lee <lyjguy@gridwiz.com>
+
+USER root
+
+EXPOSE 80
+# Hdfs ports
+EXPOSE 50010 50020 50070 50075 50090
+# Mapred ports
+EXPOSE 19888
+#Yarn ports
+EXPOSE 8030 8031 8032 8033 8040 8042 8088
+#Other ports
+EXPOSE 49707 2122
+
+CMD ["sh","-c", "/usr/sbin/sshd -D]
