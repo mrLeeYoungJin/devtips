@@ -114,3 +114,15 @@ $ git reset --hard HEAD^
 ```
 $ git reset --hard HEAD
 ```
+
+#### git remote url 설정
+
+```
+git remote add origin http://giturl
+```
+
+#### git remote url 변경
+
+```
+git remote set-url origin http://giturl
+```
