@@ -1,0 +1,18 @@
+FROM ubuntu:16.04
+
+RUN apt-get update && \
+    apt-get install -y  software-properties-common && \
+    apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24C74CD1D8 && \
+        add-apt-repository 'deb [arch=amd64,i386,ppc64el] http://ftp.kaist.ac.kr/mariadb/repo/10.1/ubuntu xenial main' && \
+        apt-get update && \
+        DEBIAN_FRONTEND=noninteractive apt-get install -y mariadb-server
+
+RUN rm -rf /var/lib/mysql && mkdir /var/lib/mysql
+
+COPY config/server.cnf /etc/mysql/my.cnf
+COPY scripts/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod 700 /docker-entrypoint.sh
+
+EXPOSE 3306 4567 4568 4444
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["mysqld"]

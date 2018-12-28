@@ -1,0 +1,105 @@
+docker run -d --name mariadb -e MYSQL_ROOT_PASSWORD=test123 mariadb
+
+docker build --tag gwlab/mariadb_galera:0.1 .
+
+docker run -d --name db1 -p 3506:3306 -e CLUSTER_NAME=BOOTSTRAP -e CLUSTER=BOOTSTRAP -e MYSQL_USER=sst_user -e MYSQL_ROOT_PASSWORD=test123 gwlab/mariadb_galera:0.1
+docker run -d --name db1 -p 3506:3306 -e CLUSTER_NAME=BOOTSTRAP -e CLUSTER=BOOTSTRAP -e MYSQL_ROOT_PASSWORD=test123 gwlab/mariadb_galera:0.1
+
+docker run -d --name db2 -e CLUSTER_NAME=BOOTSTRAP -e CLUSTER=db1,db2,db3 -e MYSQL_ROOT_PASSWORD=test123 gwlab/mariadb_galera:0.1
+docker run -d --name db2 -p 3606:3306 -e CLUSTER_NAME=BOOTSTRAP -e CLUSTER=db1 -e MYSQL_ROOT_PASSWORD=test123 -v /your/data/dir:/var/lib/mysql gwlab/mariadb_galera:0.1
+
+docker run -d --name db2 -p 3606:3306 -e CLUSTER_NAME=BOOTSTRAP -e CLUSTER=db1,db2 -e MYSQL_ROOT_PASSWORD=test123 gwlab/mariadb_galera:0.1
+
+docker run -d --name db3 -p 3706:3306 -e CLUSTER_NAME=BOOTSTRAP -e CLUSTER=db1,db2,db3 -e MYSQL_ROOT_PASSWORD=test123 gwlab/mariadb_galera:0.1
+
+docker run -d --name db2 -p 3606:3306 --link db1:db1 -e CLUSTER_NAME=BOOTSTRAP -e CLUSTER=db1,db2 -e MYSQL_ROOT_PASSWORD=test123 gwlab/mariadb_galera:0.1
+
+docker exec -ti db1 mysql -u root --password=test123 -e "show status like 'wsrep%'"
+docker exec -ti db1 mysql -u root --password=test123 -e "show status like 'wsrep_cluster_size%'"
+docker exec -ti db1 mysql -u root -e "show status like 'wsrep_cluster_size%'"
+docker exec -ti db1 mysql -u root -e "show status like 'wsrep%'"
+
+exec mysqld --wsrep_node_address="${HOSTNAME}" \
+    --wsrep_cluster_name="${CLUSTER_NAME}" \
+    --wsrep_new_cluster --wsrep_cluster_address="gcomm://172.17.0.5" \
+    --wsrep_node_name="${HOSTNAME}"
+    
+ exec mysqld --wsrep_node_address="${HOSTNAME}" \
+    --wsrep_cluster_name="${CLUSTER_NAME}" \
+    --wsrep_cluster_address="gcomm://172.17.0.3" \
+    --wsrep_node_name="${HOSTNAME}"
+    
+exec --wsrep_node_address="${HOSTNAME}" \
+    --wsrep_cluster_name="${CLUSTER_NAME}" \
+    --wsrep_cluster_address="gcomm://172.17.0.3" \
+    --wsrep_node_name="${HOSTNAME}"
+ 
+ 
+ docker inspect db2  | grep IPAddress   
+    
+mysql -uroot -ptest123 -e "GRANT USAGE ON *.* to sst_user@'localhost' IDENTIFIED BY 'test123';"
+mysql -uroot -ptest123 -e "GRANT RELOAD, LOCK TABLES, REPLICATION CLIENT ON *.* TO sst_user@'localhost' IDENTIFIED BY 'test123'";
+mysql -uroot -ptest123 -e "GRANT ALL PRIVILEGES on *.* to sst_user@'localhost';"
+mysql -uroot -ptest123 -e "FLUSH PRIVILEGES;"
+    
+    
+docker run -d --name db2 -p 3606:3306 -e CLUSTER_NAME=BOOTSTRAP -e MYSQL_ROOT_PASSWORD=test123 gwlab/mariadb_galera:0.1    
+
+
+SET PASSWORD FOR 'root'@'%' = PASSWORD('test123');
+
+GRANT USAGE ON *.* TO 'root'@'%' IDENTIFIED BY 'test123';
+GRANT USAGE ON *.* TO 'root'@'localhost' IDENTIFIED BY 'test123';
+GRANT USAGE ON *.* TO 'root'@'127.0.0.1' IDENTIFIED BY 'test123';
+GRANT USAGE ON *.* TO 'root'@'%' IDENTIFIED BY 'test123';
+
+
+GRANT ALL ON test.* TO 'root'@'%' IDENTIFIED BY 'test123';
+
+
+---------------------
+
+docker build --tag gwlab/directpurchasejob:0.1 .
+
+
+docker run -d --name directjob gwlab/directpurchasejob:0.1
+
+docker exec -it directjob sh
+
+kubectl logs directpurchasejob
+
+kubectl describe
+
+kubectl rolling-update myapp --image=us.gcr.io/project-107012/myapp:5c3dda6b --image-pull-policy Always
+
+sed -i '$ a\wsrep_node_address             = '${HOSTNAME} /etc/mysql/my.cnf \
+sed -i '$ a\wsrep_cluster_name             = '${HOSTNAME} /etc/mysql/my.cnf \
+sed -i '$ a\wsrep_cluster_address             = 172.17.0.3,'${HOSTNAME} /etc/mysql/my.cnf \
+sed -i '$ a\wsrep_node_name             = '${HOSTNAME} /etc/mysql/my.cnf
+
+sed -i '$ a\wsrep_cluster_address             = 172.17.0.3,172.17.0.5' /etc/mysql/my.cnf
+
+
+wsrep_node_address             = 172.17.0.5
+wsrep_cluster_name             = BOOTSTRAP
+wsrep_cluster_address          = "gcomm://172.17.0.3,172.17.0.5"
+wsrep_node_name                = db2
+
+sed -i -e "s/^server\-id=.*$/server-id=${RANDOM}/" /etc/mysql/my.cnf
+
+# 맨 마지막 라인에 server-id=12345 생성
+sed -i '$ a\server-id=12345' /etc/mysql/my.cnf
+
+# server-id=로 시작하는 글자는 찾아 변경
+sed -i -e "s/^server\-id=.*$/server-id=${RANDOM}/" /etc/mysql/my.cnf
+
+# set nodes own address
+WSREP_NODE_ADDRESS=`ip addr show | grep -E '^[ ]*inet' | grep -m1 global | awk '{ print $2 }' | sed -e 's/\/.*//'`
+
+
+sed -i '$ a\server-id=12345' /etc/hosts
+
+wsrep_node_address             = 172.17.0.5
+wsrep_cluster_name             = BOOTSTRAP
+wsrep_cluster_address          = "gcomm://db1,db2"
+wsrep_node_name                = db2

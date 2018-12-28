@@ -1,0 +1,69 @@
+[mysql]
+
+# This config is tuned for a 4xCore, 8GB Ram DB Host
+
+# CLIENT #
+port                           = 3306
+socket                         = /var/lib/mysql/mysql.sock
+
+[mysqld]
+
+# GENERAL #
+user                           = mysql
+default-storage-engine         = InnoDB
+socket                         = /var/lib/mysql/mysql.sock
+pid-file                       = /var/lib/mysql/mysql.pid
+bind-address                   = 0.0.0.0
+
+# CHARACTER SET #
+collation-server               = utf8_unicode_ci
+init-connect                   = 'SET NAMES utf8'
+character-set-server           = utf8
+
+
+# DATA STORAGE #
+datadir                        = /var/lib/mysql
+
+# BINARY LOGGING #
+log-bin                        = /var/lib/mysql/mysql-bin
+expire-logs-days               = 14
+# Disabling for performance per http://severalnines.com/blog/9-tips-going-production-galera-cluster-mysql
+sync-binlog                    = 0
+# Required for Galera
+binlog-format                  = row
+
+# INNODB #
+innodb-flush-method            = O_DIRECT
+innodb-log-files-in-group      = 2
+#innodb-log-file-size           = 256M
+innodb-flush-log-at-trx-commit = 1
+innodb-file-per-table          = 1
+# 80% Memory is default reco.
+# Need to re-evaluate when DB size grows
+#innodb-buffer-pool-size        = 6G
+#innodb_file_format             = Barracuda
+
+
+# LOGGING #
+log-error                      = /dev/stdout
+slow-query-log-file            = /dev/stdout
+log-queries-not-using-indexes  = 1
+slow-query-log                 = 1
+
+# GALERA SETTINGS #
+[galera]
+wsrep_on                       = ON
+wsrep_provider                 = /usr/lib/galera/libgalera_smm.so
+wsrep_sst_method               = rsync
+wsrep_slave_threads            = 4
+innodb-flush-log-at-trx-commit = 2
+#### mysql 실행 시 파라미터로 넘겨서 실행 시 mariadb bug로 인해 실행안됨.
+###########################################################
+wsrep_node_address             = 172.17.0.5
+wsrep_cluster_name             = BOOTSTRAP
+wsrep_cluster_address          = "gcomm://172.17.0.3,172.17.0.5"
+wsrep_node_name                = db2
+###########################################################
+
+# MYISAM REPLICATION SUPPORT #
+wsrep_replicate_myisam         = ON
