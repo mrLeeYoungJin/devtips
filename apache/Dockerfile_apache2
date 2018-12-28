@@ -17,6 +17,8 @@ ENV TOMCAT_CONNETORS tomcat-connectors-1.2.46-src
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
+# RUN locale-gen ko_KR.UTF-8
+# ENV LC_ALL ko_KR.UTF-8
 
 RUN mkdir -p /static/resource
 
