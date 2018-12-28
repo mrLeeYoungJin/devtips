@@ -69,6 +69,10 @@ ETC.
 > docker 내에서는 crontab이 동작 하지 않는다.
 
 ```
+# Git clone
+# git clone --mirror  http://giturl.git
+
+
 ## host 서버에서 cronjob 실행
 ## 5분에 한번 저장소 sync
 $ vi /etc/cron.d/redmine_sync_git_repos

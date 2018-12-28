@@ -112,7 +112,7 @@ docker:redmine$ git clone https://github.com/stgeneral/redmine-progressive-proje
 docker:redmine$ rake redmine:plugins:migrate RAILS_ENV=production
 $ docker restart redmine
 
-## progressive-projects-list-list.git
+## redmine_ganttproject_sync.git
 docker:redmine$ git clone https://github.com/milgner/redmine_ganttproject_sync.git plugins/redmine_ganttproject_sync
 docker:redmine$ rake redmine:plugins:migrate RAILS_ENV=production
 $ docker restart redmine
