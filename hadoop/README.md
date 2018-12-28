@@ -3,7 +3,7 @@ hadoop 설치 (docker 기반)
 
 -	refer site :
 
-> https://github.com/sequenceiq/hadoop-docker <br /> https://bitbucket.org/uhopper/hadoop-docker <br /> https://github.com/CentOS/CentOS-Dockerfiles/tree/master/ssh/centos7
+> http://hadoop.apache.org <br /> https://github.com/sequenceiq/hadoop-docker <br /> https://bitbucket.org/uhopper/hadoop-docker <br /> https://github.com/CentOS/CentOS-Dockerfiles/tree/master/ssh/centos7
 
 #### centos7 기반 hadoop 설치
 
