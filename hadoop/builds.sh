@@ -8,3 +8,6 @@ docker build --rm -f Dockerfile_hadoop --tag gwess/centos7_hadoop .
 
 echo "========================================== gwess/centos7_hadoop_namenode"
 docker build --rm -f Dockerfile_namenode --tag gwess/centos7_hadoop_namenode .
+
+echo "========================================== gwess/centos7_hadoop_datanode"
+docker build --rm -f Dockerfile_datanode --tag gwess/centos7_hadoop_datanode .

@@ -1,13 +1,13 @@
 # docker build --rm -f Dockerfile_hadoop --tag gwess/centos7_hadoop .
-# docker run -d -v /sys/fs/cgroup:/sys/fs/cgroup:ro --cap-add SYS_ADMIN -p 50070:50070 -p 50075:50075 -p 2122:2122 --name hadoop gwess/centos7_hadoop
+# docker run -d -v /sys/fs/cgroup:/sys/fs/cgroup:ro --cap-add SYS_ADMIN --name hadoop gwess/centos7_hadoop
 
 FROM gwess/centos7
 MAINTAINER YoungJin Lee <lyjguy@gridwiz.com>
 
 USER root
 
-RUN yum clean all && yum update -y && yum install -y httpd vim wget sudo locales locales-all
-RUN systemctl enable httpd.service
+RUN yum clean all && yum update -y && yum install -y httpd net-tools vim wget sudo locales locales-all
+#RUN systemctl enable httpd.service
 
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
@@ -44,38 +44,41 @@ RUN curl -s $HADOOP_URL \
 RUN cd /usr/local && ln -s ./hadoop-2.9.2 hadoop
 
 ENV HADOOP_PREFIX /usr/local/hadoop
+ENV HADOOP_CONF_DIR $HADOOP_PREFIX/etc/hadoop
+ENV PATH $PATH:$HADOOP_PREFIX/sbin:$HADOOP_PREFIX/bin
 
-RUN sed -i '/^export JAVA_HOME/ s:.*:export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64:' $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
+RUN sed -i '/^export JAVA_HOME/ s:.*:export JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.191.b12-1.el7_6.x86_64:' $HADOOP_CONF_DIR/hadoop-env.sh
+
+RUN sed -i '/^NAMENODES=/s/^/#/' /usr/local/hadoop/sbin/start-dfs.sh && sed -i '/^#NAMENODES/aNAMENODES=hadoopmaster' /usr/local/hadoop/sbin/start-dfs.sh
 
 # single node
-RUN mkdir $HADOOP_PREFIX/input
-RUN cp $HADOOP_PREFIX/etc/hadoop/*.xml $HADOOP_PREFIX/input
+#RUN mkdir $HADOOP_PREFIX/input
+#RUN cp $HADOOP_CONF_DIR/*.xml $HADOOP_PREFIX/input
+
+RUN mkdir -p /data/dfs/namenode /data/dfs/namesecondary /data/dfs/datanode /data/yarn/nm-local-dir /data/yarn/system/rmstore
+RUN chmod 755 -R /data
+
+COPY masters $HADOOP_CONF_DIR/masters
+COPY slaves $HADOOP_CONF_DIR/slaves
 
 # pseudo distributed
-COPY core-site.xml $HADOOP_PREFIX/etc/hadoop/core-site.xml
-COPY hdfs-site.xml $HADOOP_PREFIX/etc/hadoop/hdfs-site.xml
+COPY core-site.xml $HADOOP_CONF_DIR/core-site.xml
+COPY hdfs-site.xml $HADOOP_CONF_DIR/hdfs-site.xml
+COPY mapred-site.xml $HADOOP_CONF_DIR/mapred-site.xml
+COPY yarn-site.xml $HADOOP_CONF_DIR/yarn-site.xml
 
 COPY ssh_config /root/.ssh/config
 RUN chmod 600 /root/.ssh/config
 RUN chown root:root /root/.ssh/config
 
-COPY bootstrap.sh /etc/bootstrap.sh
-RUN chown root:root /etc/bootstrap.sh
-RUN chmod 700 /etc/bootstrap.sh
-
 # fix the 254 error code
-RUN sed -i "/^[^#]*UsePAM/ s/.*/#&/" /etc/ssh/sshd_config
+#RUN sed -i "/^[^#]*UsePAM/ s/.*/#&/" /etc/ssh/sshd_config
 RUN echo "UsePAM no" >> /etc/ssh/sshd_config
 RUN echo "Port 2122" >> /etc/ssh/sshd_config
 
-EXPOSE 80
-# Hdfs ports
-EXPOSE 50010 50020 50070 50075 50090
-# Mapred ports
-EXPOSE 19888
-#Yarn ports
-EXPOSE 8030 8031 8032 8033 8040 8042 8088
-#Other ports
-EXPOSE 49707 2122
+ADD ./create_user.sh /create_user.sh
+RUN chmod 755 /create_user.sh
+# EXPOSE 22
+RUN ./create_user.sh
 
 CMD ["/usr/sbin/sshd", "-D"]
