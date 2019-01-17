@@ -1,15 +1,12 @@
 출처 : https://teragoon.wordpress.com/2012/04/04/github%EC%97%90%EC%84%9C-readmemd-%EC%9E%91%EC%84%B1%ED%95%98%EA%B8%B0markdown-%EB%AC%B8%EB%B2%95/
 
-Github에서 README(.md) 작성하기(Markdown 문법)
-Github에 Repository를 만들고 root에 README(or Readme.md, Readme.markdown 중 한개로 쓰면됩니다.)를 만들어 넣으면 Github에서 자동으로 Code 탭에서 보여줍니다.
+Github에서 README(.md) 작성하기(Markdown 문법) Github에 Repository를 만들고 root에 README(or Readme.md, Readme.markdown 중 한개로 쓰면됩니다.)를 만들어 넣으면 Github에서 자동으로 Code 탭에서 보여줍니다.
 
 하지만 아무렇게나 작성해도 되지만 “GitHub Flavored Markdown” (GFM)이라는 문법에 맞게 작성하면 더 보기 편하게 보여줍니다.
 
-GFM이란?
-GFM은 표준 Markdown(SM)에 조금더 편하게 변경한 github 버젼입니다. 그리고 Markdown은 Plain text로 작성된 파일을 HTML로 변경해서 보여주기 위한 문법입니다.
+GFM이란? GFM은 표준 Markdown(SM)에 조금더 편하게 변경한 github 버젼입니다. 그리고 Markdown은 Plain text로 작성된 파일을 HTML로 변경해서 보여주기 위한 문법입니다.
 
-GFM 문법
-<줄바꿈>
+GFM 문법<줄바꿈>
 
 SM이랑 가장 큰 차이점으로 문장의 줄바꿈을 그대로 반영합니다.(즉, “enter”로 줄바꿈 구분함)
 
@@ -29,9 +26,9 @@ H3 ### , H4 #### , H5 ##### , H6 ######
 
 <리스트>
 
-+ 가 -> <li>가</li>
+-	가 -> <li>가</li>
 
-* 가 -> <li>가</li>
+-	가 -> <li>가</li>
 
 – 가 -> <li>가</li>
 
@@ -39,17 +36,17 @@ H3 ### , H4 #### , H5 ##### , H6 ######
 
 <숫자 리스트>
 
-1. 가
+1.	가
 
-2. 나
+2.	나
 
 숫자 + “.” + “공백” + 내용 (“.” 뒤에 공백이 와야 리스트 입니다.)
 
 <코드>
 
-무조건 빈줄을 하나 넣어줘 준 다음 공백 4개(”    “) 로 시작하면 됩니다.
+무조건 빈줄을 하나 넣어줘 준 다음 공백 4개(” “) 로 시작하면 됩니다.
 
-또는 “` 로 시작해서 “` 으로 끝내면 됩니다.
+또는 “`로 시작해서 “` 으로 끝내면 됩니다.
 
 코드 안에서는 자동으로 escap 처리를 해줍니다.(<, > 등등)
 
@@ -67,37 +64,19 @@ http://github.github.com/github-flavored-markdown/preview.html
 
 예제 입니다.
 ============
-GFM은
-—
-다음과
-같이
->사용이
->>가능합니다.
->###어렵지 않습니다.
-코드 표현방법
-————-
-“`
+
+GFM은 — 다음과 같이 >사용이 >>가능합니다. >###어렵지 않습니다. 코드 표현방법 ————- “`
 var i = 0
 “`
 
-var foo = “bar”
-<html> </html>
-##리스트 표현방법
-+ 플러스
-* 별
-– 하이픈
-###숫자리스트
-1. 숫자
-1. 숫자
+var foo = “bar”<html> </html> ##리스트 표현방법 + 플러스* 별 – 하이픈 ###숫자리스트 1. 숫자 1. 숫자
+
 ### 링크
-[블로그](teragoon.wordpress.com)
-#주의
-1. 이렇게 해야합니다.
+
+[블로그](teragoon.wordpress.com) #주의 1. 이렇게 해야합니다.
 
 “`
 var i = 0;
-“`
-2. 이건 안됩니다.
+“` 2. 이건 안됩니다.
 
-var i = 0;
-* 숫자 리스트로 하면 숫자가 유지됩니다.
+var i = 0;* 숫자 리스트로 하면 숫자가 유지됩니다.
