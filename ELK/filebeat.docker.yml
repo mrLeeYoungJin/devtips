@@ -1,0 +1,37 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+#filebeat.autodiscover:
+#  providers:
+#    - type: docker
+#      hints.enabled: true
+
+processors:
+- add_cloud_metadata: ~
+
+#output.elasticsearch:
+#  hosts: '${ELASTICSEARCH_HOSTS:elasticsearch:9200}'
+#  username: '${ELASTICSEARCH_USERNAME:}'
+#  password: '${ELASTICSEARCH_PASSWORD:}'
+
+filebeat.inputs:
+- type: log
+  paths:
+    - /var/log/gitlab.log
+  include_lines: ['^date']
+  fields:
+    index_name: "gitlab_index"
+    app_id: gitlab
+#- type: log
+#  paths:
+#    - /var/log/redmine.log
+#  fields:
+#    apache: true
+# fields_under_root: true
+
+output.logstash:
+  # The Logstash hosts
+  hosts: ["192.168.202.41:5044"]
+  bulk_max_size : 1048
