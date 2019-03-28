@@ -1,9 +1,9 @@
 vuejs 설치
 ==========
 
--	refer site :
-
-> https://kr.vuejs.org
+-	https://kr.vuejs.org
+-	https://cli.vuejs.org/config
+-	https://router.vuejs.org/kr/guide/#html
 
 #### npm 기반 설치
 
@@ -43,4 +43,14 @@ $ vue ui
 
 ```
 $ vue config
+```
+
+#### 이슈
+
+> Expected linebreaks to be 'LF' but found 'CRLF' 오류시
+
+-	eslint core 설정 변경
+
+```
+$ npm run lint --fix
 ```
