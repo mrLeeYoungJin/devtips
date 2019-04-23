@@ -123,6 +123,12 @@ docker:redmine$ git clone https://github.com/phlegx/redmine_gitlab_hook.git plug
 docker:redmine$ rake redmine:plugins:migrate RAILS_ENV=production
 $ docker restart redmine
 
+## clipboard_image_paste
+## https://github.com/peclik/clipboard_image_paste
+docker:redmine$ git clone https://github.com/peclik/clipboard_image_paste.git plugins/clipboard_image_paste
+docker:redmine$ rake redmine:plugins:migrate RAILS_ENV=production
+$ docker restart redmine
+
 ## uninstall rake
 docker:redmine$ rake redmine:plugins:migrate NAME=redmine_ganttproject_sync VERSION=0 RAILS_ENV=production
 $ docker restart redmine
