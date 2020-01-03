@@ -25,3 +25,10 @@ $ keys *
 ```
 $ keys custom_id
 ```
+
+> 특정 key 만료시간 set
+
+```
+# second
+$ expire custom_id 10
+```
