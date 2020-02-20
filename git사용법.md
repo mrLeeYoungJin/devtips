@@ -126,3 +126,13 @@ git remote add origin http://giturl
 ```
 git remote set-url origin http://giturl
 ```
+
+### git cache clear
+
+```
+git rm -r --cached .
+git add .
+git commit -am 'git cache cleared'
+git push
+```
+
