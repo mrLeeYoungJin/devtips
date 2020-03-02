@@ -42,6 +42,9 @@ $ docker rm $(docker ps -a -q)
 $ docker rmi gwlab/project
 or
 $ docker rmi tagId
+
+# all delete
+$ docker rmi $(docker images -a -q)
 ```
 
 > tar save and load
